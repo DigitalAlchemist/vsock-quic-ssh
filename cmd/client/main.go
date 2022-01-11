@@ -60,7 +60,7 @@ func DialSSH(ctx *cli.Context) error {
 			if err != nil {
 				return nil, err
 			}
-			c := &utils.VSockConn{conn}
+			c := &utils.VSockConn{Conn: conn}
 			return quic.DialEarly(c, nil, "vsock", tlsCfg, cfg)
 		}
 	}
@@ -80,7 +80,7 @@ func DialSSH(ctx *cli.Context) error {
 	}
 
 	stream := ds.DataStream()
-	wrap := &utils.QuicStreamConnWrapper{stream}
+	wrap := &utils.QuicStreamConnWrapper{Stream: stream}
 
 	// TODO: Add a context
 	return DoSSH(wrap)

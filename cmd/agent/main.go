@@ -93,7 +93,7 @@ func ListenApp(ctx *cli.Context) error {
 		}
 
 		stream := ds.DataStream()
-		wrap := &utils.QuicStreamConnWrapper{stream}
+		wrap := &utils.QuicStreamConnWrapper{Stream: stream}
 		utils.SSHHandleConn(wrap)
 		return
 	})
@@ -171,7 +171,7 @@ func ListenAndServeVSock(vsockCid uint32, cert, key string, handler http.Handler
 
 		log.Printf("VSock Connection from %s\n", conn.RemoteAddr().String())
 
-		err = quicServer.Serve(&utils.VSockConn{conn})
+		err = quicServer.Serve(&utils.VSockConn{Conn: conn})
 		if err != nil && err != io.EOF {
 			log.Println(err)
 			return err
